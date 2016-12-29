@@ -1,22 +1,16 @@
-<! doctype html>
-<html>
-<head>
-	<meta charset="utf-8">
-	<title>NHCC Weather Station</title>
-</head>
-<body>
-	<h1>氣象資料：</h1>
-	<ul>
-		<li>時間：{{now}}
-		<li>氣溫：{{temperature}}度C</li>
-		<li>濕度：{{wet}}%</li>
-		<li>紫外線：{{ultraviolet_radiation}}AV</li>
-		<li>光強度：{{light_intensity}}</li>
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container">
+        <ul>
+            <li>時間：{{now}}
+            <li>氣溫：{{temperature}}&deg;C</li>
+            <li>濕度：{{wet}}%</li>
+            <li>紫外線：{{ultraviolet_radiation}}AV</li>
+            <li>光強度：{{light_intensity}}</li>
+        </ul>
+    </div>
+{% endblock %}
 
-<iframe width="450" height="260" style="border: 1px solid #cccccc;" src="https://thingspeak.com/channels/148353/charts/1?bgcolor=%23ffffff&color=white&dynamic=true&results=100&title=Temperature&type=spline [https://thingspeak.com/channels/148353/charts/1?bgcolor=%23ffffff&color=white&dynamic=true&results=100&title=temperature&type=spline_green] 
-"></iframe>
-
-
-	</ul>
-</body>
-</html>
+                                                                               
+                                                                               
+    

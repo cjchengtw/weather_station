@@ -15,3 +15,6 @@ def homepage(request):
     now = dataJson.get('created_at')
     html = template.render(locals())
     return HttpResponse(html)
+
+def static(request):
+    template = get_template('static.html')
