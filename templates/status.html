@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>圖表：</h1>
+			
+	{{ div|safe }}
+	<script type="text/javascript" src="http://cdn.pydata.org/bokeh/release/bokeh-0.12.3.min.js"></script>
+    {{ script|safe }}
+{% endblock %}
+               

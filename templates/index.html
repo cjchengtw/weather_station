@@ -1,16 +1,29 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% block content %}
-    <div class="container">
-        <ul>
-            <li>時間：{{now}}
-            <li>氣溫：{{temperature}}&deg;C</li>
-            <li>濕度：{{wet}}%</li>
-            <li>紫外線：{{ultraviolet_radiation}}AV</li>
-            <li>光強度：{{light_intensity}}</li>
-        </ul>
-    </div>
+    <h1>氣象資料：</h1>
+			<ul>
+				<li>時間：{{now}}
+				<li>氣溫：{{temperature}}<deg>C</deg></li>
+				<li>濕度：{{wet}}%</li>
+				<li>紫外線：{{ultraviolet_radiation}}AV</li>
+				<li>光強度：{{light_intensity}}</li>
+			</ul>
+	{{ div|safe }}
+	<script type="text/javascript" src="http://cdn.pydata.org/bokeh/release/bokeh-0.12.3.min.js"></script>
+    {{ script|safe }}
 {% endblock %}
-
                                                                                
-                                                                               
-    
+<!--
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Bokeh Scatter Plots</title>
+   <link rel="stylesheet" href="http://cdn.pydata.org/bokeh/release/bokeh-0.9.0.min.css" type="text/css" />
+ </head>
+ <body>
+     {{ div | safe }}
+</body>
+    <script type="text/javascript" src="http://cdn.pydata.org/bokeh/release/bokeh-0.9.0.min.js"></script>
+    {{ script | safe }}
+</html>
+-->  
