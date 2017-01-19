@@ -1,1 +1,1 @@
-web: gunicorn bookshop.wsgi --pythonpath weatherstation
+web: gunicorn weather_station.wsgi --pythonpath weather_station
