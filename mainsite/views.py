@@ -1,31 +1,89 @@
+# -*- coding: utf-8 -*-
 from django.shortcuts import render
 from django.template.loader import get_template
 from django.http import HttpResponse
-from bokeh.resources import CDN
 from urllib.request import urlopen
-import json
-from bokeh.plotting import figure, output_file, show 
+from bokeh.plotting import figure, output_file
+import json 
 from bokeh.embed import components
+from bokeh.models.widgets import Slider,RadioButtonGroup
+from datetime import datetime
+from django.views.generic.base import View,TemplateView
+from bokeh.layouts import gridplot
 # Create your views here.
-def homepage(request):
-    template = get_template('index.html')
-    data = urlopen("http://api.thingspeak.com/channels/148353/feed/last.json?key=K8TNQ7BOCQ3JZMK2&timezone=Asia/Taipei").read().decode('utf-8')
-    dataJson = json.loads(data)
-    #temperature  = dataJson.get('field1')
-    #wet  = dataJson.get('field2')
-    #ultraviolet_radiation = dataJson.get('field3')
-    #light_intensity = dataJson.get('field4')
-    #now = dataJson.get('created_at')
+def draw(data,field):
+    plot = figure(tools="",logo=None,x_axis_type="datetime")
+    #plot.line([i for i in range(0,100)],[float(data[i]['field1']) for i in range(0,100)])
+    plot.line([i for i in range(0,100)],[data[i].get('{}'.format(field)) for i in range(0,100)])
+    return plot
     
-    plot = figure(tools="",logo=None)
-    plot.line([i for i in range(0,100)],[float(data[i]['field1']) for i in range(0,100)]) #temperature
-    slide = Slider()                 # 建立 Slider
-    layout = hplot(plot,slide)          # 將圖表與 Slider 利用 hplot 排版
-    script, div = components(plot)
+def homepage(request):  
+    template = get_template('index.html')
+    
+    last_data = urlopen("http://api.thingspeak.com/channels/148353/feed/last.json?key=K8TNQ7BOCQ3JZMK2&timezone=Asia/Taipei").read().decode('utf-8')
+    
+    lastdataJson = json.loads(last_data)
+    
+    
+    tpr = lastdataJson.get('field1')
+    wet  = lastdataJson.get('field2')
+    ur = lastdataJson.get('field3')
+    li = lastdataJson.get('field4')    
+    #now = lastdataJson.get('created_at')
+    
+    
     html = template.render(locals())
     return HttpResponse(html)
 
+
+
+    #temperature->tpr, ultraviolet_radiation->ur,light_intensity->li
 def status(request):
     template = get_template('status.html')
+    data_group = urlopen("https://api.thingspeak.com/channels/148353/fields/1.json?key=K8TNQ7BOCQ3JZMK2&timezone=Asiz/Taipei").read().decode('utf-8')
+    datagroupJson = json.loads(data_group)
+    data  = datagroupJson.get('feeds')
+    button_group = RadioButtonGroup(labels=["溫度", "濕度", "光照度"], active=0)
+    #layout = Column(button_group,plot)          # 將圖表與 Slider 與RadioButtonGroup排版
+    tmp_plot = draw(data,'field1')
+    wtr_plot = draw(data,'field2')
+    #ur_plot = draw(data,'field3')
+    #li_plot = draw(data,'field4')
+   
+    #plots = {'tmp': tmp_plot, 'wet': tmp_plot, 'ur': tmp_plot, 'li': tmp_plot}
+    # plots = (tmp_plot,wet_plot,ur_plot,li_plot)
+   
+   
+   #grid = gridplot([tmp_plot,wtr_plot],[ur_plot,li_plot]) 
+    grid = gridplot([tmp_plot,wtr_plot],[tmp_plot,tmp_plot]) 
+   
+                    
+    script,div = components(grid)
     html = template.render(locals())
     return HttpResponse(html)
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    #temperature  = dataJson.get('field1')

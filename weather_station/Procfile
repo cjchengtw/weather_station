@@ -1,1 +1,0 @@
-web: gunicorn weather_station.wsgi --pythonpath weatherstation

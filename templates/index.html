@@ -2,15 +2,19 @@
 {% block content %}
     <h1>氣象資料：</h1>
 			<ul>
-				<li>時間：{{now}}
-				<li>氣溫：{{temperature}}<deg>C</deg></li>
+                <!--temperature->tpr, ultraviolet_radiation->ur,light_intensity->li-->
+				<!-- <li>時間：{{now}} -->
+				<li>氣溫：{{tpr}}&deg;C</li>
 				<li>濕度：{{wet}}%</li>
-				<li>紫外線：{{ultraviolet_radiation}}AV</li>
-				<li>光強度：{{light_intensity}}</li>
+				<li>紫外線：{{ur}}AV</li>
+				<li>光強度：{{li}}</li>
 			</ul>
-	{{ div|safe }}
+    <div>
+        
+    </div>
+	
 	<script type="text/javascript" src="http://cdn.pydata.org/bokeh/release/bokeh-0.12.3.min.js"></script>
-    {{ script|safe }}
+    
 {% endblock %}
                                                                                
 <!--
