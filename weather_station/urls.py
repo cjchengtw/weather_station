@@ -15,10 +15,10 @@ Including another URLconf
 """
 from django.conf.urls import url,include
 from django.contrib import admin
-from mainsite.views import homepage,status
+from mainsite.views import homepage,status,form
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
 	url(r'^$', homepage),
-     url(r'^status/$', status),
-     
+    url(r'^status/$', status),
+    url(r'^form/$',form), 
 ]

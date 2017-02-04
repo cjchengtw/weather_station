@@ -1,22 +1,30 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render
 from django.template.loader import get_template
+from django.template import RequestContext
 from django.http import HttpResponse
 from urllib.request import urlopen
-from bokeh.plotting import figure, output_file
+from bokeh.plotting import figure, output_file,Row
 import json 
 from bokeh.embed import components
 from bokeh.models.widgets import Slider,RadioButtonGroup
 from datetime import datetime
 from django.views.generic.base import View,TemplateView
 from bokeh.layouts import gridplot
+from django.core.mail import EmailMessage
+from mainsite import forms
 # Create your views here.
 def draw(data,field):
     plot = figure(tools="",logo=None,x_axis_type="datetime")
     #plot.line([i for i in range(0,100)],[float(data[i]['field1']) for i in range(0,100)])
     plot.line([i for i in range(0,100)],[data[i].get('{}'.format(field)) for i in range(0,100)])
     return plot
-    
+
+def convert_time(now):
+    date,time = now.split('T')
+    year,month,day = date.split('-')
+    normal,jet_lag = time.split('+')     
+ 
 def homepage(request):  
     template = get_template('index.html')
     
@@ -29,9 +37,9 @@ def homepage(request):
     wet  = lastdataJson.get('field2')
     ur = lastdataJson.get('field3')
     li = lastdataJson.get('field4')    
-    #now = lastdataJson.get('created_at')
-    
-    
+    observe_time = lastdataJson.get('created_at')
+    #year,month,day = convert_time(now)
+    recent_time = str(datetime.now())
     html = template.render(locals())
     return HttpResponse(html)
 
@@ -46,7 +54,7 @@ def status(request):
     button_group = RadioButtonGroup(labels=["溫度", "濕度", "光照度"], active=0)
     #layout = Column(button_group,plot)          # 將圖表與 Slider 與RadioButtonGroup排版
     tmp_plot = draw(data,'field1')
-    wtr_plot = draw(data,'field2')
+    wtr_plot = draw(data,'field1')
     #ur_plot = draw(data,'field3')
     #li_plot = draw(data,'field4')
    
@@ -55,12 +63,27 @@ def status(request):
    
    
    #grid = gridplot([tmp_plot,wtr_plot],[ur_plot,li_plot]) 
-    grid = gridplot([tmp_plot,wtr_plot],[tmp_plot,tmp_plot]) 
-   
-                    
+    grid = Row(tmp_plot,wtr_plot)
     script,div = components(grid)
     html = template.render(locals())
     return HttpResponse(html)
+
+def form(request):
+    if request.method == 'POST':
+        form = forms.Contact(request.POST)
+        if form.is_valid():
+            message = "感謝回饋！"
+        else:
+            message = "請再次檢查您的輸入資訊。"
+    else:
+        form = forms.Contact()
+    form = forms.Contact()
+    template = get_template('form.html')
+    request_context = RequestContext(request)
+    request_context.push(locals())
+    html = template.render(request_context)
+    
+    return HttpResponse(html)    
     
     
     

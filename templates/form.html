@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block content %}
+{% load bootstrap_tags %}
+
+<div class="container">
+        <div class="well well-sm">
+            <h1>
+                <span class="glyphicons glyphicons-conversation"></span>&nbsp;您的建議將讓氣象站更好！
+            </h1>
+
+        </div>
+       <div class="panel panel-info">
+        
+        <div class="panel panel-body">
+            <form name='form' action='.' method='POST'>
+                {% csrf_token %}
+                {{ form|as_bootstrap_inline}}
+                
+                <div class="col-sm-12 text-center">
+                    <button type="submit" class="btn btn-primary">我要發文</button>    
+                </div>
+            </form>
+
+        </div>  
+    </div>
+</div>
+{% endblock %}
+
+<!--
+<div class="container">
+<div class="panel panel-info">
+<div class="page-heading">
+<h1>
+<span class="glyphicons glyphicons-conversation"></span>&nbsp;給我們建議 讓氣象站更好！
+</h1>
+
+</div>
+<div class="panel panel-body">
+
+<form class="form-horizontal" action='.' method='POST'> 
+{% csrf_token %}
+<div class="form-group ">
+<label for="id" class="control-label  col-sm-2">Name:</label>
+<div class="col-sm-6">
+<input type="text" class="form-control" id="id" placeholder="你的名子">
+</div>
+
+</div>
+<div class="form-group">
+<label for="user-email" class="control-label col-sm-2">Email:</label>
+<div class="col-sm-6">
+<input type="email" id="email" class="form-control" placeholder="電子信箱">
+</div>
+
+</div>
+<div class="form-group">
+<label for="comment" class="col-sm-2 control-label">Comment:</label>
+<div class="col-sm-6">
+<textarea id="comment" class="form-control" placeholder="留個話" rows="5"></textarea>    
+</div>
+</div>
+<div class="col-sm-12 text-center">
+<button type="submit" class="btn btn-primary">我要發文</button>
+
+
+</form>
+
+</div>
+{% if message %}
+<div class="alert alert-waring">{{message}}</div>
+{% endif %}
+</div>
+</div>
+</div>  
+</div>
+</div> 
+
+-->
+

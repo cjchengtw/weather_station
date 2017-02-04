@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'markdown_deux',
     'mainsite',
+    'django_forms_bootstrap',
+    
 ]
 
 MIDDLEWARE = [
