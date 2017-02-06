@@ -19,12 +19,43 @@ def draw(data,field):
     #plot.line([i for i in range(0,100)],[float(data[i]['field1']) for i in range(0,100)])
     plot.line([i for i in range(0,100)],[data[i].get('{}'.format(field)) for i in range(0,100)])
     return plot
-
+def is_leap(year):
+    if year % 400 == 0 or year % 4 ==0 and year % 100 != 0:
+        return False
+    else:
+        return True
+        
 def convert_time(now):
+    solar_month=[1,3,5,7,8,10,12]
+    lunar_month=[4,6,9,11]
+    february = [2]
     date,time = now.split('T')
     year,month,day = date.split('-')
+    year,month,day = int(year),int(month),int(day)
     normal,jet_lag = time.split('+')     
- 
+    hour,minute,second = normal.split(':')
+    d_hour,d_minute = jet_lag.split(':')
+    minute = int(minute) + int(d_minute)    
+    hour = int(hour) + int(d_hour)
+    if hour> 24:
+        hour -= 24
+        if month in solar_month:
+            if day == 31:
+                month += 1
+        elif month in february:
+            if is_leap(year):
+                if day == 29:
+                    month += 1
+            else:
+                if day == 27:
+                    month +=1
+        elif month in lunar_month:
+            if day == 30:
+                month += 1
+        if month > 12:
+            year += 1
+            month = 1
+    return year,month,day,hour,minute,second
 def homepage(request):  
     template = get_template('index.html')
     
@@ -38,7 +69,7 @@ def homepage(request):
     ur = lastdataJson.get('field3')
     li = lastdataJson.get('field4')    
     observe_time = lastdataJson.get('created_at')
-    #year,month,day = convert_time(now)
+    year,month,day,hour,minute,second = convert_time(observe_time)
     recent_time = str(datetime.now())
     html = template.render(locals())
     return HttpResponse(html)
