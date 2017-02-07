@@ -10,8 +10,13 @@ https://docs.djangoproject.com/en/1.10/howto/deployment/wsgi/
 import os
 
 from django.core.wsgi import get_wsgi_application
-from whitenoise.django import DjangoWhiteNoise 
-#application = DjangoWhiteNoise(application
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "weather_station.settings")
 
-application = get_wsgi_application()
+#os.environ.setdefault("DJANGO_SETTINGS_MODULE", "weather_station.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "prompt.settings")
+
+from whitenoise.django import DjangoWhiteNoise 
+application = DjangoWhiteNoise(get_wsgi_application())
+
+#os.environ.setdefault("DJANGO_SETTINGS_MODULE", "weather_station.settings")
+
+#application = get_wsgi_application()

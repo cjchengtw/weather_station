@@ -55,7 +55,11 @@ def convert_time(now):
         if month > 12:
             year += 1
             month = 1
-    return year,month,day,hour,minute,second
+    if hour >= 12:
+        period = "下午"
+    else:
+        period = "上午"
+    return year,month,day,hour,minute,second,period
 def homepage(request):  
     template = get_template('index.html')
     
@@ -69,7 +73,7 @@ def homepage(request):
     ur = lastdataJson.get('field3')
     li = lastdataJson.get('field4')    
     observe_time = lastdataJson.get('created_at')
-    year,month,day,hour,minute,second = convert_time(observe_time)
+    year,month,day,hour,minute,second,peroid = convert_time(observe_time)
     recent_time = str(datetime.now())
     html = template.render(locals())
     return HttpResponse(html)
