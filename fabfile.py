@@ -16,11 +16,11 @@ USER = 'cj10243'
 PROJECT_DIR = '/home/{USER}/project/weather_station/'.format(USER=USER)
 DJANGO_DIR = PROJECT_DIR + 'weather_station'
 GIT_REPOSITORY = 'https://github.com/cj10243/weather_station'
-DB_USER = 'django'
-DB_PASSWORD = 'django'
-DB_NAME = 'eshop'
-#DATABASE_URL = 'postgres://{0}:{1}@localhost/{2}'.format(DB_USER, DB_PASSWORD, DB_NAME)
-DATABASE_URL = 'sqlite:///db.sqlite3{0}:{1}@localhost/{2}'.format(DB_USER, DB_PASSWORD, DB_NAME)
+DB_USER = 'nhcc'
+DB_PASSWORD = 'nhcc'
+DB_NAME = 'weather'
+DATABASE_URL = 'postgres://{0}:{1}@localhost/{2}'.format(DB_USER, DB_PASSWORD, DB_NAME)
+#DATABASE_URL = 'sqlite:///db.sqlite3{0}:{1}@localhost/{2}'.format(DB_USER, DB_PASSWORD, DB_NAME)
 '''
 USER = 'cj10243'
 PROJECT_DIR = '/home/{USER}/project/eshop/'.format(USER=USER)
@@ -31,8 +31,10 @@ DB_PASSWORD = 'django'
 DB_NAME = 'eshop'
 DATABASE_URL = 'postgres://{0}:{1}@localhost/{2}'.format(DB_USER, DB_PASSWORD, DB_NAME)
 '''
+
 def upgrade_system():
     sudo('apt-get update -y')
+
 
 
 def install_packages():
@@ -51,6 +53,7 @@ def install_packages():
 def setup_repository():
     run('rm -rf {}'.format(PROJECT_DIR))
     run('git clone {} {}'.format(GIT_REPOSITORY, PROJECT_DIR))
+    sudo('chmod 777 {0}'.format(PROJECT_DIR))
 
 
 def create_virtualenv():
@@ -109,10 +112,10 @@ def pg_create_database(database, owner):
     _run_as_pg('createdb {database} -O {owner}'.format(database=database, owner=owner))
 
 def create_database():
-    if not pg_user_exists('django'):
-        pg_create_user('django', 'django')
-    if not pg_database_exists('eshop'):
-        pg_create_database('eshop', 'django')
+    if not pg_user_exists('nhcc'):
+        pg_create_user('nhcc', 'nhcc')
+    if not pg_database_exists('weather'):
+        pg_create_database('weather', 'nhcc')
 
 
 def create_gunicorn_script():
