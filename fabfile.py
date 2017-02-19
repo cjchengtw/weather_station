@@ -33,6 +33,7 @@ DATABASE_URL = 'postgres://{0}:{1}@localhost/{2}'.format(DB_USER, DB_PASSWORD, D
 '''
 
 def upgrade_system():
+    sudo('chmod 777 {0}'.format(PROJECT_DIR))
     sudo('apt-get update -y')
 
 
