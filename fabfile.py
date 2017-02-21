@@ -5,7 +5,9 @@ Created on Mon Feb  6 22:47:36 2017
 @author: User
 """
 
-
+#fab -u cj10243 --port=22 -H 192.168.1.103 provision
+#fab -u vagrant --port=2222 -H localhost manage:createsuperuser
+#fab -u vagrant --port=2222 -H localhost deploy
 import os
 from fabric.api import cd, run, sudo, prefix, task, env
 from fabric.contrib.files import upload_template
@@ -33,7 +35,7 @@ DATABASE_URL = 'postgres://{0}:{1}@localhost/{2}'.format(DB_USER, DB_PASSWORD, D
 '''
 
 def upgrade_system():
-    sudo('chmod 777 {0}'.format(PROJECT_DIR))
+    #sudo('chmod 777 {0}'.format(PROJECT_DIR))
     sudo('apt-get update -y')
 
 
@@ -54,7 +56,7 @@ def install_packages():
 def setup_repository():
     run('rm -rf {}'.format(PROJECT_DIR))
     run('git clone {} {}'.format(GIT_REPOSITORY, PROJECT_DIR))
-    sudo('chmod 777 {0}'.format(PROJECT_DIR))
+    #sudo('chmod 777 {}'.format(PROJECT_DIR) + 'manage.py')
 
 
 def create_virtualenv():
@@ -183,4 +185,9 @@ def provision():
     create_database()
     create_gunicorn_script()
     setup_systemd()
-    deploy()
+    #deploy()
+
+@task()
+def test():
+    setup_repository()
+    create_virtualenv()
