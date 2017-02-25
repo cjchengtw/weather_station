@@ -7,6 +7,7 @@
             <!--temperature->tpr, ultraviolet_radiation->ur,light_intensity->li-->
             <!-- <li>時間：{{now}} -->
             <li>觀測時間：{{year}}年{{month}}月{{day}}日{{peroid}}{{hour}}點{{minute}}分{{second}}秒</li>
+            <li>觀測地點：台北市立內湖高級中學</li>
             <li>氣溫：{{tpr}}&deg;C</li>
             <li>濕度：{{wet}}%</li>
             <li>紫外線：{{ur}}AV</li>
@@ -15,6 +16,9 @@
 
         </ul>
     </div>
+
+    {% endblock %}
+    <!--
     <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
             <li class="" data-target="#carousel-example-generic" data-slide-to="0"></li>
@@ -44,7 +48,7 @@
 </div>
 -->
 
-{% endblock %}
+
 
 <!--
 <!DOCTYPE html>

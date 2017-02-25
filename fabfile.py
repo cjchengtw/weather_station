@@ -53,10 +53,11 @@ def install_packages():
     sudo('apt-get install -y {}'.format(' '.join(required_packages)))
 
 
+
 def setup_repository():
     run('rm -rf {}'.format(PROJECT_DIR))
     run('git clone {} {}'.format(GIT_REPOSITORY, PROJECT_DIR))
-    #sudo('chmod 777 {}'.format(PROJECT_DIR) + 'manage.py')
+
 
 
 def create_virtualenv():
@@ -66,9 +67,17 @@ def create_virtualenv():
 
 def install_requirements():
     with prefix('source {}/venv/bin/activate'.format(PROJECT_DIR)):
+        run('pip install --upgrade pip')
         run('pip install -r {}'.format(
             os.path.join(PROJECT_DIR, 'requirements.txt')
+))
+    with prefix('source {}/venv/bin/activate'.format(PROJECT_DIR)):
+        #bdist wheel error fixed
+        run('pip install wheel')
+        run('pip wheel -r {}'.format(
+            os.path.join(PROJECT_DIR, 'requirements.txt')
         ))
+
 
 
 def restart_nginx():
@@ -135,8 +144,8 @@ def create_gunicorn_script():
         use_sudo=True,
         use_jinja=True
     )
-    run('chmod 755 {0}'.format(os.path.join(PROJECT_DIR, 'run.sh')))
-
+    #run('chmod 755 {0}'.format(os.path.join(PROJECT_DIR, 'run.sh')))
+    run('sudo chmod -R 777 {0}'.format(os.path.join(PROJECT_DIR, 'run.sh')))
 
 def restart_service():
     sudo('systemctl restart nginx')
@@ -161,7 +170,8 @@ def setup_systemd():
 @task
 def manage(command=""):
     with prefix('source {0}venv/bin/activate && export DATABASE_URL={1}'.format(PROJECT_DIR, DATABASE_URL)):
-        with cd(DJANGO_DIR):
+        #with cd(DJANGO_DIR):
+        with cd(PROJECT_DIR):
             run('python manage.py {0}'.format(command))
 
 
@@ -185,9 +195,9 @@ def provision():
     create_database()
     create_gunicorn_script()
     setup_systemd()
-    #deploy()
+    deploy()
 
 @task()
 def test():
-    setup_repository()
     create_virtualenv()
+    install_requirements()

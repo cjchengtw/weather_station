@@ -14,8 +14,8 @@ from bokeh.layouts import gridplot
 from django.core.mail import EmailMessage
 from mainsite import forms
 # Create your views here.
-def draw(data,field):
-    plot = figure(tools="",logo=None,x_axis_type="datetime")
+def draw(data,field,title):
+    plot = figure(tools="box_select",logo=None,x_axis_type="datetime",title='{}'.format(title),plot_height=500,plot_width=500,text_color=)
     #plot.line([i for i in range(0,100)],[float(data[i]['field1']) for i in range(0,100)])
     plot.line([i for i in range(0,100)],[data[i].get('{}'.format(field)) for i in range(0,100)])
     return plot
@@ -88,8 +88,8 @@ def status(request):
     data  = datagroupJson.get('feeds')
     button_group = RadioButtonGroup(labels=["溫度", "濕度", "光照度"], active=0)
     #layout = Column(button_group,plot)          # 將圖表與 Slider 與RadioButtonGroup排版
-    tmp_plot = draw(data,'field1')
-    wtr_plot = draw(data,'field1')
+    tmp_plot = draw(data,'field1','氣溫變化圖')
+    wtr_plot = draw(data,'field1','雨量變化圖')
     #ur_plot = draw(data,'field3')
     #li_plot = draw(data,'field4')
    
@@ -99,7 +99,7 @@ def status(request):
    
    #grid = gridplot([tmp_plot,wtr_plot],[ur_plot,li_plot]) 
     grid = Row(tmp_plot,wtr_plot)
-    script,div = components(grid)
+    script,div = components(grid,button_group)
     html = template.render(locals())
     return HttpResponse(html)
 
