@@ -15,7 +15,7 @@ from django.core.mail import EmailMessage
 from mainsite import forms
 # Create your views here.
 def draw(data,field,title):
-    plot = figure(tools="box_select",logo=None,x_axis_type="datetime",title='{}'.format(title),plot_height=500,plot_width=500,text_color=)
+    plot = figure(tools="box_select",logo=None,x_axis_type="datetime",title="{}".format(title),plot_height=500,plot_width=500)
     #plot.line([i for i in range(0,100)],[float(data[i]['field1']) for i in range(0,100)])
     plot.line([i for i in range(0,100)],[data[i].get('{}'.format(field)) for i in range(0,100)])
     return plot
