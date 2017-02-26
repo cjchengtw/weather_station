@@ -34,9 +34,11 @@ def convert_time(now):
     year,month,day = int(year),int(month),int(day)
     normal,jet_lag = time.split('+')     
     hour,minute,second = normal.split(':')
-    d_hour,d_minute = jet_lag.split(':')
-    minute = int(minute) + int(d_minute)    
-    hour = int(hour) + int(d_hour)
+    #d_hour,d_minute = jet_lag.split(':')
+    #minute = int(minute) + int(d_minute)
+    minute = int(minute)
+    #hour = int(hour) + int(d_hour)
+    hour = int(hour)
     if hour> 24:
         hour -= 24
         if month in solar_month:
