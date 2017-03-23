@@ -14,30 +14,20 @@ from fabric.contrib.files import upload_template
 
 env.forward_agent = True
 
-USER = 'cj10243'
+USER = 'root'
 PROJECT_DIR = '/home/{USER}/project/weather_station/'.format(USER=USER)
 DJANGO_DIR = PROJECT_DIR + 'weather_station'
 GIT_REPOSITORY = 'https://github.com/cj10243/weather_station'
 DB_USER = 'nhcc'
-DB_PASSWORD = 'nhcc'
+DB_PASSWORD = 'NHWS1234'
 DB_NAME = 'weather'
 DATABASE_URL = 'postgres://{0}:{1}@localhost/{2}'.format(DB_USER, DB_PASSWORD, DB_NAME)
 #DATABASE_URL = 'sqlite:///db.sqlite3{0}:{1}@localhost/{2}'.format(DB_USER, DB_PASSWORD, DB_NAME)
-'''
-USER = 'cj10243'
-PROJECT_DIR = '/home/{USER}/project/eshop/'.format(USER=USER)
-DJANGO_DIR = PROJECT_DIR + 'bookshop'
-GIT_REPOSITORY = 'https://github.com/daikeren/eshop'
-DB_USER = 'django'
-DB_PASSWORD = 'django'
-DB_NAME = 'eshop'
-DATABASE_URL = 'postgres://{0}:{1}@localhost/{2}'.format(DB_USER, DB_PASSWORD, DB_NAME)
-'''
 
 def upgrade_system():
     #sudo('chmod 777 {0}'.format(PROJECT_DIR))
-    sudo('apt-get update -y')
-
+    #sudo('apt-get update -y')
+    sudo('yum update')
 
 
 def install_packages():
@@ -50,8 +40,8 @@ def install_packages():
         'postgresql', 'postgresql-server-dev-all', 'libpq-dev',
     ]
 
-    sudo('apt-get install -y {}'.format(' '.join(required_packages)))
-
+    #sudo('apt-get install -y {}'.format(' '.join(required_packages)))
+    sudo('yum install {}'.format(' '.join(required_packages)))
 
 
 def setup_repository():
@@ -62,8 +52,16 @@ def setup_repository():
 
 def create_virtualenv():
     with cd(PROJECT_DIR):
-        run('python3 -m venv venv')
+        #run('python3 -m venv venv')
+        run('python3 -m venv --without-pip venv')
 
+
+def uninstall_packages():
+    with prefix('source {}/venv/bin/actiavte'.format(PROJECT_DIR)):
+        run('pip uninstall -r {}'.format(
+            os.path.join(PROJECT_DIR,'requirements.txt')
+        )
+        )
 
 def install_requirements():
     with prefix('source {}/venv/bin/activate'.format(PROJECT_DIR)):
@@ -71,6 +69,7 @@ def install_requirements():
         run('pip install -r {}'.format(
             os.path.join(PROJECT_DIR, 'requirements.txt')
 ))
+        '''
     with prefix('source {}/venv/bin/activate'.format(PROJECT_DIR)):
         #bdist wheel error fixed
         run('pip install wheel')
@@ -79,7 +78,7 @@ def install_requirements():
         ))
 
 
-
+'''
 def restart_nginx():
     sudo('systemctl restart nginx')
 
@@ -125,7 +124,7 @@ def pg_create_database(database, owner):
 
 def create_database():
     if not pg_user_exists('nhcc'):
-        pg_create_user('nhcc', 'nhcc')
+        pg_create_user('nhcc', 'NHWS1234')
     if not pg_database_exists('weather'):
         pg_create_database('weather', 'nhcc')
 

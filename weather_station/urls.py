@@ -19,6 +19,7 @@ from mainsite.views import homepage,status,form
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
 	url(r'^$', homepage),
+    url(r'home^$', homepage),
     url(r'^status/$', status),
     url(r'^form/$',form), 
 ]

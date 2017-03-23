@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 
 import os
 
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -90,13 +91,13 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
     # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'weather',  # Or path to database file if using sqlite3.
+        'NAME': 'd62mihqlmg3dll',  # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
-        'USER': 'nhcc',
-        'PASSWORD': 'nhcc',
-        'HOST': 'localhost',
+        'USER': 'ogvzluixgwhljn',
+        'PASSWORD': '0653c10b171b908206f0145dd78843057bf566970e82ad4a27c51bf2829fb4e1',
+        'HOST': 'ec2-54-243-185-132.compute-1.amazonaws.com',
     # Empty for localhost through domain sockets or           '127.0.0.1' for localhost through TCP.D
-        'PORT': '',  # Set to empty string for default.
+        'PORT': '5432',  # Set to empty string for default.
     }
 }
 
@@ -149,9 +150,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 import dj_database_url 
 DATABASES['default'] = dj_database_url.config() 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-'''
+
 try: 
     from .local_settings import * 
 except ImportError: 
     pass
-'''
