@@ -39,7 +39,7 @@ def sketch_data(last_time):
 '''
 def draw(number,title):
     data_group = urlopen(
-        "https://api.thingspeak.com/channels/148353/fields/{}.json?key=K8TNQ7BOCQ3JZMK2&timezone=Asiz/Taipei".format(number)).read().decode(
+        "https://api.thingspeak.com/channels/148353/fields/{}.json?key=WEATHER_KEY&timezone=Asiz/Taipei".format(number)).read().decode(
         'utf-8')
     datagroupJson = json.loads(data_group)
     data = datagroupJson.get('feeds')
