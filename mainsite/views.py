@@ -23,7 +23,7 @@ import csv
 '''
 def sketch_data(last_time):
     last_data = urlopen(
-        "http://api.thingspeak.com/channels/148353/feed/last.json?key=WEATHER_LAST_DATA_KEY&timezone=Asia/Taipei").read().decode(
+        "http://api.thingspeak.com/channels/148353/feed/last.json?key=WEATHER_KEY&timezone=Asia/Taipei").read().decode(
         'utf-8')
 
     lastdataJson = json.loads(last_data)
